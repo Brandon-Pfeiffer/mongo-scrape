@@ -1,0 +1,14 @@
+main {
+	flex: auto;
+}
+
+body {
+	display: flex;
+	min-height: 100px
+	flex-direction: column;
+}
+
+ #articles {
+ 	overflow: auto;
+ 	height: 650px;
+ }
