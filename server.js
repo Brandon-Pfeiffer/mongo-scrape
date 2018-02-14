@@ -6,6 +6,9 @@ var PORT = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
+var morgan = require('morgan');
+
+
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -15,13 +18,31 @@ app.engine('handlebars', exphbs({
 
 var app = express();
 
+// app.use(logger('dev'));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.static('public'));
+
+
 app.set('view engine', 'handlebars');
 
 var Promise = require('bluebird');
 mongoose.Promise = Promise;
 
-mongoose.connect("");
+mongoose.connect("mongodb://heroku_dhj993d0:17u35cmnthqs38jvm4sa84mea9@ds235788.mlab.com:35788/heroku_dhj993d0");
 var database = mongoose.connection;
+
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+if (process.env.MONGODB_URI) {
+
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect("mongodb://localhost/mongo-scraper", {
+  useMongoClient: true
+});
+ };
 
 var databaseURL = 'scrapethis';
 var collections = ['googleData'];
